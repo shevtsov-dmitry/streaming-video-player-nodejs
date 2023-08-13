@@ -8,9 +8,10 @@ async function main() {
     try {
         await client.connect();
         console.log("Connected to MongoDB");
-
         // Your GridFS operations will go here
-        const db = client.db("myTestDatabase")
+
+
+
     } finally {
         await client.close();
         console.log("Disconnected from MongoDB");
