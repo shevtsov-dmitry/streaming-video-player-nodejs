@@ -9,7 +9,10 @@ async function main() {
         await client.connect();
         console.log("Connected to MongoDB");
         // Your GridFS operations will go here
-
+        const db = client.db("myTestDatabase")
+        const foundResults = db.collection("phones")
+        let results = await foundResults.find().toArray();
+        console.log(results)
 
 
     } finally {
