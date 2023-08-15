@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>VideoPlayer</title>
 </head>
 <body>
+<video id="videoPlayer" controls muted="muted" autoplay>
+    <source src="/mongo-video" type="video/mp4" >
+</video>
 
-<script src="sendvideo.js"></script>
+<script type="module" src="play_video.js"></script>
+<script type="module" src="sendvideo.js"></script>
 </body>
 </html>
