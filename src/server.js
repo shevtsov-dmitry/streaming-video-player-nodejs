@@ -89,3 +89,57 @@ app.post("/delete-video-by-id", async (req, res) =>{
         client.close()
     }
 })
+
+app.post("/mongo-video-get", async (req, res) => {
+    const client = new MongoClient(url)
+    const db = client.db('fs')
+    const bucket = new mongodb.GridFSBucket(db, {bucketName: "myTestBucket"})
+    const videoName = req.query.filename
+    res.setHeader('Content-Disposition', `attachment; filename=${videoName}.mp4`);
+    res.setHeader('Content-Type', 'video/mp4');
+    const downloadStream = bucket.openDownloadStreamByName(videoName);
+
+    downloadStream.pipe(res);
+})
+
+
+//         // const db = client.db('myTestDatabase');
+//         const db = client.db('myTestDatabase');
+//         console.log(db.collection('phones').findOne());
+//         // GridFS Collection
+//         const collection = db.collection('fs.files')
+//         collection.find({}, (err, video) => {
+//             if (!video) {
+//                 console.log("this is what i found:\t" + collection.findOne())
+//                 res.status(404).send("No video uploaded!");
+//                 return;
+//             }
+//
+//             // Create response headers
+//             const videoSize = video.length;
+//             const start = Number(range.replace(/\D/g, ""));
+//             const end = videoSize - 1;
+//
+//             const contentLength = end - start + 1;
+//             const headers = {
+//                 "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+//                 "Accept-Ranges": "bytes",
+//                 "Content-Length": contentLength,
+//                 "Content-Type": "video/mp4",
+//             };
+//
+//             // HTTP Status 206 for Partial Content
+//             res.writeHead(206, headers);
+//
+//             // Get the bucket and download stream from GridFS
+//             const bucket = new mongodb.GridFSBucket(db);
+//             const downloadStream = bucket.openDownloadStreamByName('1minchainsawman', {
+//                 start
+//             });
+//
+//             // Finally pipe video to response
+//             downloadStream.pipe(res);
+//         });
+//     })
+//
+// });
