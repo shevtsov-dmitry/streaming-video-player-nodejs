@@ -71,3 +71,21 @@ app.post("/video-stats", async (req,res)=>{
     }
     res.send(array)
 })
+
+app.post("/delete-video-by-id", async (req, res) =>{
+    try{
+        var client = new MongoClient(url);
+        const db = client.db('fs')
+        const bucket = new mongodb.GridFSBucket(db, {bucketName: "myTestBucket"})
+        const idFileToDelete = req.query.id
+        console.log(idFileToDelete)
+        await bucket.delete(ObjectId(`${idFileToDelete}`))
+        res.sendStatus(200)
+    }
+    catch (err){
+        res.send(err)
+    }
+    finally {
+        client.close()
+    }
+})
